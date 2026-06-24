@@ -47,10 +47,9 @@ export const ProphecyContent: React.FC<{ onAccept: () => void }> = ({ onAccept }
   const handleNoHover = () => {
     if (noCount >= 2 && noCount <= 3) {
       // Button starts dodging the mouse
-      const maxX = window.innerWidth / 2.5;
-      const maxY = window.innerHeight / 2.5;
-      const randomX = (Math.random() * maxX * 2) - maxX;
-      const randomY = (Math.random() * maxY * 2) - maxY;
+      // Keep bounds tighter so it doesn't escape the scroll container's overflow:hidden
+      const randomX = (Math.random() * 140) - 70;
+      const randomY = (Math.random() * 100) - 50;
       setDodgePosition({ x: randomX, y: randomY });
     }
   };
@@ -221,8 +220,8 @@ export const ProphecyContent: React.FC<{ onAccept: () => void }> = ({ onAccept }
             style={{ 
               position: (noCount >= 2 && noCount <= 3) ? 'relative' : 'static',
               zIndex: 5,
-              padding: (noCount >= 2 && noCount <= 3) ? '30px' : '0', // Invisible proximity wrapper
-              margin: (noCount >= 2 && noCount <= 3) ? '-30px' : '0',
+              padding: (noCount >= 2 && noCount <= 3) ? '15px' : '0', // Reduced proximity wrapper so it's catchable
+              margin: (noCount >= 2 && noCount <= 3) ? '-15px' : '0',
             }}
           >
             <button 
