@@ -130,7 +130,7 @@ h1, h2, h3, h4, h5, h6 {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
+  mix-blend-mode: multiply;
   margin: 0 auto;
 }
 
@@ -212,4 +212,51 @@ h1, h2, h3, h4, h5, h6 {
   border-width: 10px 10px 0;
   border-style: solid;
   border-color: white transparent transparent transparent;
+}
+
+/* Responsive adjustments for mobile screens */
+@media (max-width: 600px) {
+  body {
+    padding: 10px 5px;
+  }
+  
+  .parchment-bg {
+    padding: 15px 15px !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5), inset 0 0 20px rgba(139, 69, 19, 0.15);
+  }
+  
+  .btn-royal {
+    padding: 10px 18px;
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+
+  .btn-outline {
+    padding: 10px 18px;
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+  
+  .wax-seal {
+    width: 90px;
+    height: 90px;
+  }
+
+  /* Compact spacing classes */
+  .mobile-compact-list li {
+    margin: 4px 0 !important;
+  }
+
+  .mobile-compact-margin {
+    margin: 15px 0 !important;
+    padding: 10px 0 !important;
+  }
+
+  .mobile-min-height-adjust {
+    min-height: 120px !important;
+  }
+
+  .mobile-btn-container-height {
+    min-height: 70px !important;
+  }
 }

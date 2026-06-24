@@ -16,6 +16,7 @@ export const ProphecyContent: React.FC<{ onAccept: () => void }> = ({ onAccept }
   const [pigeonQuote, setPigeonQuote] = useState("");
   const [showPigeon, setShowPigeon] = useState(false);
   const [dodgePosition, setDodgePosition] = useState({ x: 0, y: 0 });
+  const [dodgeCount, setDodgeCount] = useState(0);
 
   useEffect(() => {
     // The Suspiciously Wise Pigeon appears randomly
@@ -46,11 +47,16 @@ export const ProphecyContent: React.FC<{ onAccept: () => void }> = ({ onAccept }
 
   const handleNoHover = () => {
     if (noCount >= 2 && noCount <= 3) {
+      if (dodgeCount >= 5) {
+        return; // Button is tired of running, let them click it
+      }
       // Button starts dodging the mouse
-      // Keep bounds tighter so it doesn't escape the scroll container's overflow:hidden
-      const randomX = (Math.random() * 140) - 70;
-      const randomY = (Math.random() * 100) - 50;
+      // Reduce the bounds as dodgeCount increases to make it catchable
+      const factor = Math.max(0, 1 - (dodgeCount * 0.2));
+      const randomX = ((Math.random() * 140) - 70) * factor;
+      const randomY = ((Math.random() * 100) - 50) * factor;
       setDodgePosition({ x: randomX, y: randomY });
+      setDodgeCount(c => c + 1);
     }
   };
 
@@ -62,6 +68,7 @@ export const ProphecyContent: React.FC<{ onAccept: () => void }> = ({ onAccept }
     } else if (noCount < 10) {
       setNoCount(c => c + 1);
       setDodgePosition({ x: 0, y: 0 }); // Reset position when eventually clicked
+      setDodgeCount(0); // Reset dodge count
     }
   };
 
@@ -167,20 +174,20 @@ export const ProphecyContent: React.FC<{ onAccept: () => void }> = ({ onAccept }
         )}
       </div>
 
-      <h2 style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)', marginBottom: '20px' }}>By decree of Destiny,</h2>
+      <h2 style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)', marginBottom: 'clamp(8px, 2vh, 20px)' }}>By decree of Destiny,</h2>
       <p style={{ fontSize: 'clamp(1rem, 4vw, 1.2rem)' }}>and with the approval of:</p>
-      <ul style={{ listStyle: 'none', padding: 0, fontStyle: 'italic', margin: '20px 0', fontSize: 'clamp(1rem, 4vw, 1.3rem)' }}>
-        <li style={{ margin: '8px 0' }}>The Council of Grandmothers</li>
-        <li style={{ margin: '8px 0' }}>The Department of Unexpected Outcomes</li>
-        <li style={{ margin: '8px 0' }}>Three Cats 🐈🐈🐈</li>
-        <li style={{ margin: '8px 0' }}>One Suspiciously Wise Pigeon 🐦</li>
+      <ul style={{ listStyle: 'none', padding: 0, fontStyle: 'italic', margin: 'clamp(10px, 2.5vh, 20px) 0', fontSize: 'clamp(1rem, 4vw, 1.3rem)' }}>
+        <li style={{ margin: 'clamp(4px, 1.2vh, 8px) 0' }}>The Council of Grandmothers</li>
+        <li style={{ margin: 'clamp(4px, 1.2vh, 8px) 0' }}>The Department of Unexpected Outcomes</li>
+        <li style={{ margin: 'clamp(4px, 1.2vh, 8px) 0' }}>Three Cats 🐈🐈🐈</li>
+        <li style={{ margin: 'clamp(4px, 1.2vh, 8px) 0' }}>One Suspiciously Wise Pigeon 🐦</li>
       </ul>
 
-      <p style={{ fontSize: 'clamp(1.1rem, 4vw, 1.4rem)', margin: '30px 0', borderTop: '1px solid rgba(0,0,0,0.1)', borderBottom: '1px solid rgba(0,0,0,0.1)', padding: '20px 0', lineHeight: '1.6' }}>
+      <p style={{ fontSize: 'clamp(1.05rem, 4vw, 1.35rem)', margin: 'clamp(15px, 3vh, 30px) 0', borderTop: '1px solid rgba(0,0,0,0.1)', borderBottom: '1px solid rgba(0,0,0,0.1)', padding: 'clamp(10px, 2.5vh, 20px) 0', lineHeight: '1.6' }}>
         "If both parties remain single at forty years of age, they shall be required to attend one (1) ceremonial coffee meeting to discuss whether destiny was onto something."
       </p>
 
-      <div style={{ minHeight: '200px', marginBottom: '30px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ minHeight: 'clamp(100px, 15vh, 180px)', marginBottom: 'clamp(15px, 3vh, 30px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
         <AnimatePresence mode="wait">
           <motion.div
             key={noCount + (loading ? 'loading' : 'done')}
@@ -194,7 +201,7 @@ export const ProphecyContent: React.FC<{ onAccept: () => void }> = ({ onAccept }
         </AnimatePresence>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap', alignItems: 'center', minHeight: '100px' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 'clamp(10px, 4vw, 30px)', flexWrap: 'wrap', alignItems: 'center', minHeight: 'clamp(60px, 10vh, 100px)' }}>
         <motion.button 
           className="btn-royal" 
           onClick={onAccept}
