@@ -47,8 +47,10 @@ export const ProphecyContent: React.FC<{ onAccept: () => void }> = ({ onAccept }
   const handleNoHover = () => {
     if (noCount >= 2 && noCount <= 3) {
       // Button starts dodging the mouse
-      const randomX = Math.random() * 200 - 100;
-      const randomY = Math.random() * 200 - 100;
+      const maxX = window.innerWidth / 2.5;
+      const maxY = window.innerHeight / 2.5;
+      const randomX = (Math.random() * maxX * 2) - maxX;
+      const randomY = (Math.random() * maxY * 2) - maxY;
       setDodgePosition({ x: randomX, y: randomY });
     }
   };
@@ -166,16 +168,16 @@ export const ProphecyContent: React.FC<{ onAccept: () => void }> = ({ onAccept }
         )}
       </div>
 
-      <h2 style={{ fontSize: '2rem', marginBottom: '20px' }}>By decree of Destiny,</h2>
-      <p style={{ fontSize: '1.2rem' }}>and with the approval of:</p>
-      <ul style={{ listStyle: 'none', padding: 0, fontStyle: 'italic', margin: '20px 0', fontSize: '1.3rem' }}>
-        <li style={{ margin: '5px 0' }}>The Council of Grandmothers</li>
-        <li style={{ margin: '5px 0' }}>The Department of Unexpected Outcomes</li>
-        <li style={{ margin: '5px 0' }}>Three Cats 🐈🐈🐈</li>
-        <li style={{ margin: '5px 0' }}>One Suspiciously Wise Pigeon 🐦</li>
+      <h2 style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)', marginBottom: '20px' }}>By decree of Destiny,</h2>
+      <p style={{ fontSize: 'clamp(1rem, 4vw, 1.2rem)' }}>and with the approval of:</p>
+      <ul style={{ listStyle: 'none', padding: 0, fontStyle: 'italic', margin: '20px 0', fontSize: 'clamp(1rem, 4vw, 1.3rem)' }}>
+        <li style={{ margin: '8px 0' }}>The Council of Grandmothers</li>
+        <li style={{ margin: '8px 0' }}>The Department of Unexpected Outcomes</li>
+        <li style={{ margin: '8px 0' }}>Three Cats 🐈🐈🐈</li>
+        <li style={{ margin: '8px 0' }}>One Suspiciously Wise Pigeon 🐦</li>
       </ul>
 
-      <p style={{ fontSize: '1.4rem', margin: '30px 0', borderTop: '1px solid rgba(0,0,0,0.1)', borderBottom: '1px solid rgba(0,0,0,0.1)', padding: '20px 0', lineHeight: '1.6' }}>
+      <p style={{ fontSize: 'clamp(1.1rem, 4vw, 1.4rem)', margin: '30px 0', borderTop: '1px solid rgba(0,0,0,0.1)', borderBottom: '1px solid rgba(0,0,0,0.1)', padding: '20px 0', lineHeight: '1.6' }}>
         "If both parties remain single at forty years of age, they shall be required to attend one (1) ceremonial coffee meeting to discuss whether destiny was onto something."
       </p>
 
@@ -207,26 +209,33 @@ export const ProphecyContent: React.FC<{ onAccept: () => void }> = ({ onAccept }
         {noCount === 6 ? (
           <>
             {[1,2,3,4,5].map(i => (
-               <button key={i} className="btn-outline" onClick={handleNoClick} style={{ fontSize: '0.9rem', padding: '8px 16px' }}>No</button>
+               <button key={i} className="btn-outline" onClick={handleNoClick} style={{ fontSize: '0.9rem', padding: '8px 16px', margin: '5px' }}>No</button>
             ))}
           </>
         ) : noCount === 8 ? null : (
-          <motion.button 
-            className="btn-outline" 
-            onClick={handleNoClick} 
+          <motion.div 
             onMouseEnter={handleNoHover}
             onTouchStart={handleNoHover}
             animate={{ x: dodgePosition.x, y: dodgePosition.y }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 15 }}
             style={{ 
-              opacity: (loading || noCount >= 10) ? 0.5 : 1, 
-              pointerEvents: (loading || noCount >= 10) ? 'none' : 'auto',
               position: (noCount >= 2 && noCount <= 3) ? 'relative' : 'static',
-              zIndex: 5
+              zIndex: 5,
+              padding: (noCount >= 2 && noCount <= 3) ? '30px' : '0', // Invisible proximity wrapper
+              margin: (noCount >= 2 && noCount <= 3) ? '-30px' : '0',
             }}
           >
-            {noCount >= 9 ? "Give Up" : "No"}
-          </motion.button>
+            <button 
+              className="btn-outline" 
+              onClick={handleNoClick} 
+              style={{ 
+                opacity: (loading || noCount >= 10) ? 0.5 : 1, 
+                pointerEvents: (loading || noCount >= 10) ? 'none' : 'auto',
+              }}
+            >
+              {noCount >= 9 ? "Give Up" : "No"}
+            </button>
+          </motion.div>
         )}
       </div>
     </div>
